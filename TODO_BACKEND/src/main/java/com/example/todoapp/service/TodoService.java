@@ -6,6 +6,9 @@ import com.example.todoapp.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import com.example.todoapp.dto.TodoRequest;
+import com.example.todoapp.entity.Todo;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,5 +23,14 @@ public class TodoService {
         return todoRepository.findAll().stream()
                 .map(todoMapper::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    public TodoResponse createTodo(TodoRequest request) {
+        Todo todo = Todo.builder()
+                .title(request.getTitle())
+                .description(request.getDescription())
+                .completed(false)
+                .build();
+        return todoMapper.toResponse(todoRepository.save(todo));
     }
 }

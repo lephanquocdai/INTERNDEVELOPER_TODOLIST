@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from './api';
 import TodoList from './components/TodoList';
+import TodoForm from './components/TodoForm';
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -22,6 +23,7 @@ function App() {
     <div className="min-h-screen py-10 px-4 bg-gray-50">
       <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">📝 Todo List</h1>
+        <TodoForm onTodoAdded={fetchTodos} />
         <TodoList todos={todos} />
       </div>
     </div>
