@@ -6,6 +6,15 @@ function TodoItem({ todo, refreshTodos }) {
   const [editTitle, setEditTitle] = useState(todo.title);
   const [editDesc, setEditDesc] = useState(todo.description || '');
 
+  const toggleStatus = async () => {
+    try {
+      await api.patch(`/${todo.id}/toggle`);
+      refreshTodos();
+    } catch (error) {
+      console.error('Error toggling status', error);
+    }
+  };
+
   const saveEdit = async () => {
     try {
       await api.put(`/${todo.id}`, { title: editTitle, description: editDesc });
@@ -49,18 +58,26 @@ function TodoItem({ todo, refreshTodos }) {
   }
 
   return (
-    <div className="border border-gray-200 p-4 rounded-lg shadow-sm bg-white flex justify-between items-start sm:items-center gap-4 hover:shadow-md transition">
-      <div className="flex-1">
-        <h3 className={`font-semibold text-lg ${todo.completed ? 'line-through text-gray-400' : 'text-gray-800'}`}>
-          {todo.title}
-        </h3>
-        {todo.description && (
-          <p className="text-sm mt-1 text-gray-600">
-            {todo.description}
-          </p>
-        )}
+    <div className={`border border-gray-200 p-4 rounded-lg shadow-sm transition-all duration-300 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 ${todo.completed ? 'bg-gray-50' : 'bg-white hover:shadow-md'}`}>
+      <div className="flex items-start gap-4 flex-1">
+        <input 
+          type="checkbox" 
+          checked={todo.completed} 
+          onChange={toggleStatus} 
+          className="mt-1 w-5 h-5 rounded cursor-pointer accent-blue-600 transition"
+        />
+        <div>
+          <h3 className={`font-semibold text-lg transition-colors ${todo.completed ? 'line-through text-gray-400' : 'text-gray-800'}`}>
+            {todo.title}
+          </h3>
+          {todo.description && (
+            <p className={`text-sm mt-1 transition-colors ${todo.completed ? 'text-gray-400' : 'text-gray-600'}`}>
+              {todo.description}
+            </p>
+          )}
+        </div>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 w-full sm:w-auto justify-end">
         <button 
           onClick={() => setIsEditing(true)} 
           className="text-blue-500 hover:bg-blue-50 px-3 py-1.5 rounded-lg text-sm font-semibold transition"

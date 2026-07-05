@@ -38,4 +38,9 @@ public class TodoController {
     public void deleteTodo(@PathVariable Long id) {
         todoService.deleteTodo(id);
     }
+
+    @PatchMapping("/{id}/toggle")
+    public TodoResponse toggleStatus(@PathVariable Long id) {
+        return todoService.toggleStatus(id);
+    }
 }

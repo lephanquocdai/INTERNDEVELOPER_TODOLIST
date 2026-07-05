@@ -48,4 +48,11 @@ public class TodoService {
         }
         todoRepository.deleteById(id);
     }
+
+    public TodoResponse toggleStatus(Long id) {
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Todo not found"));
+        todo.setCompleted(!todo.isCompleted());
+        return todoMapper.toResponse(todoRepository.save(todo));
+    }
 }
