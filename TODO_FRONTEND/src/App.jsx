@@ -24,7 +24,7 @@ function App() {
       <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">📝 Todo List</h1>
         <TodoForm onTodoAdded={fetchTodos} />
-        <TodoList todos={todos} />
+        <TodoList todos={todos} refreshTodos={fetchTodos} />
       </div>
     </div>
   );

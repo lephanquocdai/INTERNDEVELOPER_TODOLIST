@@ -33,4 +33,12 @@ public class TodoService {
                 .build();
         return todoMapper.toResponse(todoRepository.save(todo));
     }
+
+    public TodoResponse updateTodo(Long id, TodoRequest request) {
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Todo not found"));
+        todo.setTitle(request.getTitle());
+        todo.setDescription(request.getDescription());
+        return todoMapper.toResponse(todoRepository.save(todo));
+    }
 }
