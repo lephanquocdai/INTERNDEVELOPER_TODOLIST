@@ -17,6 +17,16 @@ function TodoItem({ todo, refreshTodos }) {
     }
   };
 
+  const deleteTodo = async () => {
+    if (!window.confirm('Are you sure you want to delete this?')) return;
+    try {
+      await api.delete(`/${todo.id}`);
+      refreshTodos();
+    } catch (error) {
+      console.error('Error deleting', error);
+    }
+  };
+
   if (isEditing) {
     return (
       <div className="border p-4 rounded-xl shadow-md bg-white">
@@ -56,6 +66,12 @@ function TodoItem({ todo, refreshTodos }) {
           className="text-blue-500 hover:bg-blue-50 px-3 py-1.5 rounded-lg text-sm font-semibold transition"
         >
           Edit
+        </button>
+        <button 
+          onClick={deleteTodo} 
+          className="text-red-500 hover:bg-red-50 px-3 py-1.5 rounded-lg text-sm font-semibold transition"
+        >
+          Delete
         </button>
       </div>
     </div>

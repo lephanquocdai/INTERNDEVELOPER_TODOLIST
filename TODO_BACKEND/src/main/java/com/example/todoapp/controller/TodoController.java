@@ -32,4 +32,10 @@ public class TodoController {
     public TodoResponse updateTodo(@PathVariable Long id, @Valid @RequestBody TodoRequest request) {
         return todoService.updateTodo(id, request);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTodo(@PathVariable Long id) {
+        todoService.deleteTodo(id);
+    }
 }
