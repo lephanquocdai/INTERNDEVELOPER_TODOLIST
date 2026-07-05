@@ -20,8 +20,8 @@ public class TodoController {
 
     @GetMapping
     public Page<TodoResponse> getTodos(
-            @RequestParam(required = false) String status,
-            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "") String status,
+            @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt") String sortBy,

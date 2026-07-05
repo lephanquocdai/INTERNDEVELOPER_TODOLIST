@@ -12,9 +12,9 @@ import org.springframework.stereotype.Repository;
 public interface TodoRepository extends JpaRepository<Todo, Long> {
 
     @Query("SELECT t FROM Todo t WHERE " +
-           "(:status IS NULL OR " +
+           "(:status = '' OR " +
            "(:status = 'completed' AND t.completed = true) OR " +
            "(:status = 'pending' AND t.completed = false)) " +
-           "AND (:keyword IS NULL OR LOWER(t.title) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+           "AND (:keyword = '' OR LOWER(t.title) LIKE LOWER(CONCAT('%', :keyword, '%')))")
     Page<Todo> filterTodos(@Param("status") String status, @Param("keyword") String keyword, Pageable pageable);
 }
