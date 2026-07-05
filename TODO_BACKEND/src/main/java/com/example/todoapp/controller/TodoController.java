@@ -5,10 +5,11 @@ import com.example.todoapp.service.TodoService;
 import com.example.todoapp.dto.TodoRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/todos")
@@ -18,8 +19,16 @@ public class TodoController {
     private final TodoService todoService;
 
     @GetMapping
-    public List<TodoResponse> getTodos() {
-        return todoService.getAllTodos();
+    public Page<TodoResponse> getTodos(
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+            
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        return todoService.getTodos(status, keyword, PageRequest.of(page, size, sort));
     }
 
     @PostMapping

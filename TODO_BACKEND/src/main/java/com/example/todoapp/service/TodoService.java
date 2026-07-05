@@ -4,6 +4,8 @@ import com.example.todoapp.dto.TodoResponse;
 import com.example.todoapp.mapper.TodoMapper;
 import com.example.todoapp.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.todoapp.dto.TodoRequest;
@@ -19,10 +21,8 @@ public class TodoService {
     private final TodoRepository todoRepository;
     private final TodoMapper todoMapper;
 
-    public List<TodoResponse> getAllTodos() {
-        return todoRepository.findAll().stream()
-                .map(todoMapper::toResponse)
-                .collect(Collectors.toList());
+    public Page<TodoResponse> getTodos(String status, String keyword, Pageable pageable) {
+        return todoRepository.filterTodos(status, keyword, pageable).map(todoMapper::toResponse);
     }
 
     public TodoResponse createTodo(TodoRequest request) {
